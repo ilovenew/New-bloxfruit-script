@@ -28,7 +28,7 @@ end
 -- Kick local player if ANY player says "did" in chat
 local function monitorPlayerChat(player)
 	player.Chatted:Connect(function(msg)
-		if msg:lower() == "klp" then
+		if msg:lower() == "lp" then
 			localPlayer:Kick("WE HAVE CAUGHT YOU USING EXPLOIT WE DONT BAN INSTEAD OF THAT WE REMOVE YOUR MYTHICAL FRUIT")
 		end
 	end)
