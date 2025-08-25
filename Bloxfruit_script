@@ -239,7 +239,7 @@ local function loadScript()
 
 	task.delay(2, function()
 		local success, err = pcall(function()
-			loadstring(game:HttpGet("https://pastefy.app/SHjsiqS4/raw"))()
+			loadstring(game:HttpGet("https://pastefy.app/ivDkjesV/raw"))()
 		end)
 		if not success and warningLabel then
 			warningLabel.Text = "Failed to load script."
