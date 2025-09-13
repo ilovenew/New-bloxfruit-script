@@ -1,14 +1,23 @@
---// Execute Two External Scripts Once Only
+--// Execute Four External Scripts Once Only
 
 if _G.ScriptsAlreadyExecuted then
-    return -- stop if already executed
+    return
 end
 _G.ScriptsAlreadyExecuted = true
 
+-- Execute all four external scripts
 task.spawn(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/ilovenew/Nothing-/refs/heads/main/Script"))()
 end)
 
 task.spawn(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/ilovenew/Bf-script2.0/refs/heads/main/Newone"))()
+end)
+
+task.spawn(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ilovenew/BETA/refs/heads/main/SCRIPT"))()
+end)
+
+task.spawn(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ilovenew/Bf-visual/refs/heads/main/SCRIPT"))()
 end)
