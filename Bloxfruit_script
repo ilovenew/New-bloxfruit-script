@@ -1,1 +1,23 @@
+--// Execute Four External Scripts Once Only
 
+if _G.ScriptsAlreadyExecuted then
+    return
+end
+_G.ScriptsAlreadyExecuted = true
+
+-- Execute all four external scripts
+task.spawn(function()
+    loadstring(game:HttpGet("https://pastefy.app/63sSq4Ud/raw"))()
+end)
+
+task.spawn(function()
+    loadstring(game:HttpGet("https://pastefy.app/INyeo6Oa/raw"))()
+end)
+
+task.spawn(function()
+    loadstring(game:HttpGet("https://pastefy.app/mPFL8bfP/raw"))()
+end)
+
+task.spawn(function()
+    loadstring(game:HttpGet(""))()
+end)
